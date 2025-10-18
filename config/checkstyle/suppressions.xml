@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE suppressions PUBLIC
+  "-//Checkstyle//DTD SuppressionXpathFilter Experimental Configuration 1.2//EN"
+  "https://checkstyle.org/dtds/suppressions_1_2_xpath_experimental.dtd">
+
+<suppressions>
+    <suppress checks="MagicNumber"
+              files="test[/\\].+java$"
+    />
+    <suppress checks="JavadocType"
+              files="test[/\\].+java"
+    />
+    <suppress checks="JavadocMethod"
+              files="test[/\\].+java"
+    />
+    <suppress checks="MethodName"
+              files="test[/\\].+java"
+    />
+    <suppress checks="ParameterNumber"
+              files="src[/\\].+java"
+    />
+    <!--  Suppress for any classes that contain method named "main"  -->
+    <suppress-xpath checks="HideUtilityClassConstructor"
+                    query="//CLASS_DEF[//METHOD_DEF[./IDENT[@text='main']]]"
+    />
+
+    <!--  Suppress for any classes that are annotated with "NoArgsConstructor"  -->
+    <suppress-xpath checks="HideUtilityClassConstructor"
+                    query="//CLASS_DEF[.//ANNOTATION[./IDENT[@text='NoArgsConstructor']]/ANNOTATION_MEMBER_VALUE_PAIR[./IDENT[@text='access']]/EXPR//IDENT[@text='PRIVATE']]"
+    />
+
+    <!--  Suppress for any classes that are annotated with "SpringBootApplication"  -->
+    <suppress-xpath checks="HideUtilityClassConstructor"
+                    query="//CLASS_DEF[//MODIFIERS/ANNOTATION[./IDENT[@text='SpringBootApplication']]]"
+    />
+    <!--  Suppress for any classes that are annotated with "Repository"  -->
+    <suppress checks="MethodName"
+              files="src[/\\].+Repository.java"
+    />
+    <!--  Suppress for any DAO classes  -->
+    <suppress checks="AbstractClassName"
+      files="dao[/\\].+java"
+    />
+    <!--  Suppress for any DTO classes  -->
+    <suppress checks="AbstractClassName"
+      files="dto[/\\].+java"
+    />
+</suppressions>

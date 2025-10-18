@@ -1,0 +1,43 @@
+{
+  "subject": "mockUser",
+  "claims": {
+    "ARRAY": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "BIOLOGY": "true",
+    "sub": "c28bfb6e-fd48-4a34-adc0-b95590dab453",
+    "name": "Админ Админов",
+    "preferred_username": "ufs-app-admin",
+    "org": "Sber"
+  },
+  "tenants": {
+    "PLATCORE1": {
+      "roles": [
+        "admin",
+        "reader"
+      ],
+      "permissions": [
+        "SSP_DICTIONARIES.Dictionaries.View",
+        "SSP_DICTIONARIES.Dictionaries.Edit",
+        "SSP_DICTIONARIES.Dictionaries.Add",
+        "SSP_DICTIONARIES.Version.View",
+        "SSP_DICTIONARIES.Version.Edit",
+        "SSP_DICTIONARIES.Data.View",
+        "SSP_DICTIONARIES.Data.Edit"
+      ],
+      "groups": [
+        {
+          "id": "Viewer",
+          "name": "Группа наблюдателей"
+        },
+        {
+          "id": "SuperAdmin1",
+          "name": "Группа админов"
+        }
+      ]
+    }
+  }
+}

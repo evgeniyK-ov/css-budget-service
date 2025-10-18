@@ -1,0 +1,75 @@
+server:
+  forward-headers-strategy: framework
+spring:
+  webflux:
+    base-path: /ssp/api-dictionaries
+  application:
+    name: ssp-dictionaries
+  jackson:
+    mapper:
+      ACCEPT_CASE_INSENSITIVE_PROPERTIES: true
+      ACCEPT_CASE_INSENSITIVE_ENUMS: true
+    date-format: "yyyy-MM-dd HH:mm:ss"
+    time-zone: UTC
+    serialization:
+      write_date_timestamps_as_nanoseconds: false
+      WRITE_DATES_AS_TIMESTAMPS: false
+      fail_on_empty_beans: false
+    deserialization:
+      fail_on_unknown_properties: false
+#    default-property-inclusion: non_null
+  r2dbc:
+    #    url: 'r2dbc:postgresql://localhost:5432/postgres'
+    #    username: 'postgres'
+    #    password: 'postgres'
+    #    properties:
+    #      schema: ssp_dictionaries
+    pool:
+      enabled: true
+      initial-size: 5
+      max-size: 10
+      max-idle-time: 30m
+      validation-query: SELECT 1
+  liquibase:
+    #    url: 'jdbc:postgresql://localhost:5432/postgres'
+    #    user: ${spring.r2dbc.username}
+    #    password: ${spring.r2dbc.password}
+    change-log: classpath:db/migration/changelog.xml
+    enabled: true
+  mustache:
+    check-template-location: false
+
+
+
+logging:
+  level:
+    io:
+      r2dbc:
+        postgresql:
+          QUERY: DEBUG
+
+auth:
+  mode: PLAT                                      # Режим работы библиотеки. По умолчанию всегда EFS(задавать необязательно)
+  urls:                                           # Список масок адресов, которые могут выпускать JWT токены. Сверяются по подстроке с полем iss в JWT
+    - https://d-pprb-iamservice
+    - https://keycloak.dvpaio.novalocal:8443/auth/realms/PlatformAuth
+  keysLifetime: 360000
+  authorizeUrl: http://fis.gt-sol-dev-coreplatform-01.apps.k8s.dvp.tech/ufs-security
+  suppressAuthorizationErrors: false              # Флаг, прерывать ли аутентификацию в случае ошибки в логике получения привилегий из ОСА
+  deferAuthorization: false                       # Отложенная/по-требованию сборка permission в Authentication - т.е. авторизация. Аутентификация, т.е. проверка токена выполняется в любом случае
+  gostechPlatform: true                           # Зависит будет ли приложение работать на платформе гостеха или нет. По умолчанию true
+  sslIgnore: true                                 # Игнорирование проверки SSL при обращении к KeyCloak
+  useHttpIAM: false                               # Вызывать IAM по http, а не по тому протоколу, который указан в iss
+  usersCache:                                     # Кэш который хранит данные пользователя из KeyCloak
+    size: 1000                                    # Размер кэша, сколько пользователей хранятся в кэше
+    timeout: 300                                  # Измерение в секундах. по истечению таймаута пользователь удаляется.
+  permissionsCache:                               # Кэш пермишенов (ответы ОСА)
+    size: 1000                                    # Размер кэша, по умолчанию 1000. 0 выключает кэш
+    timeout: 1500ms                               # Таймаут в формате Duration, по умолчанию 1500ms. 0 выключает кэш
+  defaultRn: PLATCORE1
+
+#Для локальной разработки
+localauth:
+  profilesDir: security/mockusers                 # Путь до папки с профилями
+  defaultProfile: default                         # Профиль по умолчанию, если не указан в заголовке LOCAL_USER (В качестве значения заголовка выступает имя файла с профилем без .json)
+  ufsProviderUrl: http://fis.gt-sol-dev-coreplatform-01.apps.k8s.dvp.tech/ufs-provider # Адрес до ufs-provider
