@@ -33,6 +33,11 @@
       <version>${common.css}</version>
     </dependency>
 
+    <dependency>
+      <groupId>ru.smartsolution.common.css</groupId>
+      <artifactId>common-unit</artifactId>
+      <version>${common.css}</version>
+    </dependency>
 
     <dependency>
       <groupId>org.mapstruct</groupId>
@@ -123,7 +128,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
         <configuration>
-          <mainClass>ru.sbrf.ufs.ssp.dictionary.Application</mainClass>
+          <mainClass>ru.cpm.css.budget.Application</mainClass>
           <excludes>
             <exclude>
               <groupId>org.projectlombok</groupId>

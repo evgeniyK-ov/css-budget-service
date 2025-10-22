@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+  <changeSet author="epkazachkov" id="20251020-create-company-unit-1">
+    <sql>
+      CREATE TABLE IF NOT EXISTS company_unit
+      (
+        id           uuid         not null
+        constraint company_unit_pk
+        primary key,
+        code   varchar(50)         not null unique,
+        name   varchar(256) not null unique,
+        description text
+    );
+
+      comment on table company_unit is 'Услуги гостех без привязки к контрактам';
+          comment on column company_unit.id is 'Идетнификатор';
+          comment on column company_unit.code is 'Код подражделения';
+          comment on column company_unit.name is 'Наименование';
+          comment on column company_unit.description is 'Описание';
+
+    </sql>
+    <rollback>
+      DROP TABLE IF EXISTS company_unit;
+    </rollback>
+
+  </changeSet>
+</databaseChangeLog>

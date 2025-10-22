@@ -1,8 +1,9 @@
 server:
   forward-headers-strategy: framework
+  port: 8181
 spring:
   webflux:
-    base-path: /ssp/api-css-budget
+    base-path: /css/api-css-budget
   application:
     name: css-budget
   jackson:
