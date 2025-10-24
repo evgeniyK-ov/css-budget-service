@@ -23,8 +23,8 @@ public class CompanyUnitPageableFilterExtractor
     implements FragmentPageableFilterExtractor<CompanyUnitEntity, String> {
 
   private static final Map<String, String> SORT_MAPPING = Map.of(
-      Fields.NAME, "id",
-      Fields.NAME, "description",
+      Fields.ID, "id",
+      Fields.DESCRIPTION, "description",
       Fields.NAME, "name",
       Fields.CODE, "code"
   );

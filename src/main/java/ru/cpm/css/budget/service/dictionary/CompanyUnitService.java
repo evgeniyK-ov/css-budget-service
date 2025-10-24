@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 import ru.cpm.common.css.model.dto.CompanyUnit;
 import ru.cpm.common.css.model.dto.PageInfoDTO;
-import ru.cpm.css.budget.core.api.AbstractService;
+import ru.cpm.css.budget.core.api.AbstractCrudService;
 import ru.cpm.css.budget.core.mapper.AbstractEntityMapper;
 import ru.cpm.css.budget.core.mapper.impl.AbstractCompanyUnitMapper;
 import ru.cpm.css.budget.core.model.entity.dictionary.CompanyUnitEntity;
@@ -17,7 +17,7 @@ import ru.cpm.css.budget.core.repository.CompanyUnitRepository;
 @Service
 @RequiredArgsConstructor
 public class CompanyUnitService implements
-    AbstractService<UUID, String, CompanyUnit, CompanyUnitEntity> {
+    AbstractCrudService<CompanyUnit, UUID, String, CompanyUnit, CompanyUnitEntity> {
 
   private final CompanyUnitRepository companyUnitRepository;
   private final AbstractCompanyUnitMapper abstractCompanyUnitMapper;
@@ -28,12 +28,18 @@ public class CompanyUnitService implements
   }
 
   @Override
+  public AbstractEntityMapper<CompanyUnit, CompanyUnitEntity> getMapperToEntity() {
+    return abstractCompanyUnitMapper;
+  }
+
+  @Override
   public AbstractEntityMapper<CompanyUnit, CompanyUnitEntity> getMapperToResult() {
     return abstractCompanyUnitMapper;
   }
 
   @Override
   public Mono<? extends PageInfoDTO<CompanyUnit>> getListByPage(String filter, Pageable pageable) {
-    return AbstractService.super.getListByPage(filter, pageable);
+    return AbstractCrudService.super.getListByPage(filter, pageable);
   }
+
 }
