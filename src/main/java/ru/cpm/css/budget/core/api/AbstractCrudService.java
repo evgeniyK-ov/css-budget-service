@@ -20,9 +20,6 @@ public interface AbstractCrudService<T, K, F, R, ENTITY> extends AbstractService
 
   AbstractEntityMapper<T, ENTITY> getMapperToEntity();
 
-  default Mono<ENTITY> combineEntity(ENTITY entity) {
-    return Mono.just(entity);
-  }
 
   @Transactional
   default Mono<R> insert(T body) {
@@ -48,14 +45,17 @@ public interface AbstractCrudService<T, K, F, R, ENTITY> extends AbstractService
   private Mono<R> processUpdateOperation(K key, T validatedBody) {
     return getRepository().findById(key)
         .map(el -> getMapperToEntity().updateEntity(validatedBody, el))
-        .flatMap(this::combineEntity)
+        .flatMap(this::combineEntityBeforeSave)
         .flatMap(getRepository()::save)
+        .flatMap(this::combineEntityAfterSave)
         .map(getMapperToResult()::toDto);
   }
 
   private Mono<R> processInsertOperation(T validatedBody) {
-    return combineEntity(getMapperToEntity().toEntity(validatedBody))
+    return Mono.just(getMapperToEntity().toEntity(validatedBody))
+        .flatMap(this::combineEntityBeforeSave)
         .flatMap(el -> getRepository().save(el))
+        .flatMap(this::combineEntityAfterSave)
         .map(getMapperToResult()::toDto);
   }
 

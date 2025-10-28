@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+  <changeSet author="epkazachkov" id="20251024-create-company-unit-form-1">
+    <sql>
+      CREATE TABLE IF NOT EXISTS company_unit_form
+      (
+        id           uuid         not null
+        constraint company_unit_form_pk
+        primary key,
+        company_unit_id uuid not null,
+        code   varchar(50)         not null unique,
+        name   varchar(256) not null unique,
+        type_form varchar(50)         not null,
+        active_from      DATE not null,
+        active_to      DATE,
+        description text,
+        CONSTRAINT fk_company_unit_form_company_unit
+        FOREIGN KEY (company_unit_id)
+        REFERENCES company_unit (id)
+        ON DELETE CASCADE
+    );
+
+      comment on table company_unit_form is 'Формы данных для орг единиц';
+          comment on column company_unit_form.id is 'Идетнификатор';
+          comment on column company_unit_form.company_unit_id is 'Ссылка на орг единицу';
+          comment on column company_unit_form.code is 'Код формы';
+          comment on column company_unit_form.name is 'Наименование';
+          comment on column company_unit_form.type_form is 'Тип формы';
+         comment on column company_unit_form.active_from is 'Дата начала действия формы';
+          comment on column company_unit_form.active_to is 'Дата окончания действия формы';
+          comment on column company_unit_form.description is 'Описание';
+
+
+
+
+    </sql>
+    <rollback>
+      DROP TABLE IF EXISTS company_unit;
+    </rollback>
+
+  </changeSet>
+</databaseChangeLog>

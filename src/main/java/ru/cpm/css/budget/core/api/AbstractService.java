@@ -18,6 +18,13 @@ public interface AbstractService<K, F, R, ENTITY> {
   default Mono<R> combineResponse(R response) {
     return Mono.just(response);
   }
+  default Mono<ENTITY> combineEntityAfterSave(ENTITY entity) {
+    return Mono.just(entity);
+  }
+
+  default Mono<ENTITY> combineEntityBeforeSave(ENTITY entity) {
+    return Mono.just(entity);
+  }
 
   default Mono<F> checkFilter(F filter) {
     return Mono.just(filter);
@@ -37,6 +44,7 @@ public interface AbstractService<K, F, R, ENTITY> {
         checkFilter(filter)
             .then(
                 getRepository().findAllBy(filter, pageable)
+                    .concatMap(this::combineEntityAfterSave)
                     .map(getMapperToResult()::toDto)
                     .concatMap(this::combineResponse)
                     .collectList()
